@@ -66,11 +66,11 @@ public class Menu {
 			if (selection.equals("1")) {
 				displayItems();
 				System.out.println();
-				//stop = true;
+				
 			} else if (selection.equals("2")) {
 				purchase();
 				System.out.println();
-				//stop = true;
+				
 			} else if (selection.equals("3")) {
 				stop = true;
 			}
