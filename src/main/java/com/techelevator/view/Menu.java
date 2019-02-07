@@ -13,6 +13,7 @@ import java.util.Set;
 import com.techelevator.*;
 
 public class Menu {
+	//We have to make a list of everything in our Vending machine
 	static LinkedHashMap<String, Consumable> itemMap = new LinkedHashMap<String, Consumable>();
 	static Scanner input = new Scanner(System.in);
 
@@ -65,16 +66,16 @@ public class Menu {
 		while (!stop) {
 
 			System.out.println("(1) Display Vending Machine Items\n(2) Purchase\n(3) Restock Machine");
-			String selection = input.nextLine();
-			if (selection.equals("1")) {
+			int selection = Integer.parseInt(input.nextLine());
+			if (selection==1) {
 				displayItems();
 				System.out.println();
 
-			} else if (selection.equals("2")) {
+			} else if (selection==2) {
 				purchase();
 				System.out.println();
 
-			} else if (selection.equals("3")) {
+			} else if (selection==3) {
 				stop = true;
 			}
 
@@ -101,10 +102,10 @@ public class Menu {
 		System.out.println(
 				"(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $" + balance);
 		
-		String selection = input.nextLine();
-		if (selection.equals("1")) {
+		int selection = Integer.parseInt(input.nextLine());
+		if (selection==1) {
 			balance = feedMoney(balance);
-		} else if (selection.equals("2")) {
+		} else if (selection==2) {
 			System.out.println("Enter product location: ");
 			String location = input.nextLine();
 			Consumable item = itemMap.get(location);
@@ -114,7 +115,7 @@ public class Menu {
 
 			}
 
-		} else if (selection.equals("3")) {
+		} else if (selection==3) {
 			finishTransaction(balance);
 			balance = 0.00;
 		}
