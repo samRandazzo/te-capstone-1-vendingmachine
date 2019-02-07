@@ -31,6 +31,9 @@ public class Menu {
 					double price = Double.parseDouble(lineSplit[2]);
 					String type = lineSplit[3];
 					int numberOfItems = 5;
+					
+					//Pretty sure one of those 'Case' things would work here but I can't figure out how to do that
+					
 					if (type.equals("Gum")) {
 						Consumable item = new Gum(product, price, numberOfItems);
 						itemMap.put(location, item);
