@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
@@ -13,7 +13,7 @@ import java.util.Set;
 import com.techelevator.*;
 
 public class Menu {
-	static HashMap<String, Consumable> itemMap = new HashMap<String, Consumable>();
+	static LinkedHashMap<String, Consumable> itemMap = new LinkedHashMap<String, Consumable>();
 
 	public static void stockMachine() {
 		File input = new File("vendingmachine.csv");
@@ -58,17 +58,19 @@ public class Menu {
 	public static void mainMenu() {
 		boolean stop = false;
 		Scanner input = new Scanner(System.in);
-		//while (!stop) 
+		while (!stop)
 		{
 
 			System.out.println("(1) Display Vending Machine Items\n(2) Purchase\n(3) Restock Machine");
 			String selection = input.nextLine();
 			if (selection.equals("1")) {
 				displayItems();
-				stop = true;
+				System.out.println();
+				//stop = true;
 			} else if (selection.equals("2")) {
 				purchase();
-				stop = true;
+				System.out.println();
+				//stop = true;
 			} else if (selection.equals("3")) {
 				stop = true;
 			}
@@ -88,46 +90,57 @@ public class Menu {
 				System.out.print("\tSOLD OUT");
 			}
 		}
-		mainMenu();
-
+		
 	}
-	
+
 	public static void purchase() {
 		double balance = 0.00;
-		System.out.println("(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $"+balance);
+		System.out.println(
+				"(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $" + balance);
 		Scanner input = new Scanner(System.in);
 		String selection = input.nextLine();
 		if (selection.equals("1")) {
-			balance=feedMoney(balance);
+			balance = feedMoney(balance);
 		} else if (selection.equals("2")) {
-			selectProduct(balance);
+			System.out.println("Enter product location: ");
+			String location = input.nextLine();
+			Consumable item = itemMap.get(location);
+			if (item.getPrice() <= balance&&item.getNumberOfItems()>0) {
+				purchaseProduct(item, balance);
+				item.oneLessItem();
+				
+			}
+
 		} else if (selection.equals("3")) {
 			finishTransaction(balance);
-			balance=0.00;
+			balance = 0.00;
 		}
 		input.close();
-		mainMenu();
-	}
-	
-	private static double feedMoney(double balance) {
 		
+	}
+
+	private static double feedMoney(double balance) {
+
 		System.out.println("How much money would you like to insert?");
 		Scanner input = new Scanner(System.in);
-		balance+=Integer.parseInt(input.nextLine());
+		balance += Integer.parseInt(input.nextLine());
 		input.close();
 		return balance;
 	}
-	private static Consumable selectProduct(double balance) {
-		
-		return null;
+
+	private static double purchaseProduct(Consumable item, double balance) {
+		double price = item.getPrice();
+		balance -= price;
+		return balance;
+
 	}
-	
+
 	private static String finishTransaction(double balance) {
 
 		return null;
 	}
-	
+
 	public static void restockMachine() {
-		
+
 	}
 }

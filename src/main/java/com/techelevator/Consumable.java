@@ -22,5 +22,9 @@ public abstract class Consumable {
 	public int getNumberOfItems() {
 		return numberOfItems;
 	}
+	
+	public void oneLessItem() {
+		this.numberOfItems-=1;
+	}
 
 }
