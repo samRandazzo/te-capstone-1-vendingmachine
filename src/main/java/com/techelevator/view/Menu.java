@@ -280,7 +280,14 @@ public class Menu {
 				salesReportMap.put(item.getProduct(), 0);
 			}
 		}
-
+		if (!salesReport.exists()) {
+			try {
+				salesReport.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		if (salesReport.exists()) {
 			Scanner fileScanner;
 			try {
@@ -306,21 +313,14 @@ public class Menu {
 
 			}
 		}
-		if (!salesReport.exists()) {
-			try {
-				salesReport.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+
 		{
 			Set<String> keys = itemMap.keySet();
 			for (String key : keys) {
 				Consumable item = itemMap.get(key);
 				int initial = salesReportMap.get(item.getProduct());
 				int result = (5 - item.getNumberOfItems()) + initial;
-				totalSales +=(5 - item.getNumberOfItems()) * item.getPrice();
+				totalSales += (5 - item.getNumberOfItems()) * item.getPrice();
 				salesReportMap.put(item.getProduct(), result);
 			}
 		}
@@ -329,8 +329,9 @@ public class Menu {
 			Set<String> keys = salesReportMap.keySet();
 			for (String key : keys) {
 				writer.println(key + "|" + salesReportMap.get(key));
-			}writer.println();
-			writer.printf("**TOTAL SALES** $%.2f\n",totalSales);
+			}
+			writer.println();
+			writer.printf("**TOTAL SALES** $%.2f\n", totalSales);
 			writer.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
