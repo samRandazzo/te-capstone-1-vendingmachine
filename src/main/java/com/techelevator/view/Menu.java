@@ -95,13 +95,13 @@ public class Menu {
 
 	public static void purchase() {
 		double balance = 0.00;
-		System.out.println(
-				"(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $" + balance);
+		System.out.printf(
+				"(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $%.2f\n", balance);
 		
 		int selection = Integer.parseInt(input.nextLine());
 		if (selection==1) {
 			balance = feedMoney(balance);
-			System.out.println("Your balance is: $" + balance);
+			System.out.printf("Your balance is: $%.2f\n", balance);
 		} else if (selection==2) {
 			System.out.println("Enter product location: ");
 			String location = input.nextLine();
@@ -137,7 +137,7 @@ public class Menu {
 	}
 
 	private static String finishTransaction(double balance) {
-
+		
 		return null;
 	}
 
