@@ -125,7 +125,6 @@ public class Menu {
 		System.out.println("How much money would you like to insert?");
 		
 		balance += Integer.parseInt(input.nextLine());
-		//input.close();
 		return balance;
 	}
 
