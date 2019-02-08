@@ -172,14 +172,20 @@ public class Menu {
 	public static double feedMoney(double balance) {
 
 		System.out.println("How much money would you like to insert?");
-
+		
 		double newBalance;
-
+		
+		int moneyIn;
+		
 		String stringInput = input.nextLine();
 
-		int input = Integer.parseInt(stringInput);
+	try { moneyIn = Integer.parseInt(stringInput);}
+	
+	catch(Exception e) {
+		moneyIn=0;
+	}
 
-		newBalance = balance + input;
+		newBalance = balance + moneyIn;
 
 		Date date = new Date();
 
