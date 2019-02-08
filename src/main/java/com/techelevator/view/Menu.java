@@ -10,11 +10,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
-import java.time.*;
+import java.util.Date;
 
 import com.techelevator.*;
 
-@SuppressWarnings("unused")
 public class Menu {
 	// We have to make a list of everything in our Vending machine
 	static LinkedHashMap<String, Consumable> itemMap = new LinkedHashMap<String, Consumable>();
@@ -40,19 +39,19 @@ public class Menu {
 					// how to do that
 
 					if (type.equals("Gum")) {
-						Consumable item = new Gum(product, price, numberOfItems);
+						Consumable item = new Gum(product, price, numberOfItems, location);
 						itemMap.put(location, item);
 					}
 					if (type.equals("Candy")) {
-						Consumable item = new Candy(product, price, numberOfItems);
+						Consumable item = new Candy(product, price, numberOfItems, location);
 						itemMap.put(location, item);
 					}
 					if (type.equals("Chip")) {
-						Consumable item = new Chip(product, price, numberOfItems);
+						Consumable item = new Chip(product, price, numberOfItems, location);
 						itemMap.put(location, item);
 					}
 					if (type.equals("Drink")) {
-						Consumable item = new Drink(product, price, numberOfItems);
+						Consumable item = new Drink(product, price, numberOfItems, location);
 						itemMap.put(location, item);
 					}
 				}
@@ -64,8 +63,8 @@ public class Menu {
 //If the file doesn't exist, create it
 		// if the file does exist, write over it
 
-		File log =new File ("log.txt");
-		if(!log.exists()) {
+		File log = new File("log.txt");
+		if (!log.exists()) {
 			try {
 				log.createNewFile();
 			} catch (IOException e) {
@@ -80,9 +79,8 @@ public class Menu {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-			
-			
+		}
+
 	}
 
 	public static void mainMenu() {
@@ -175,17 +173,21 @@ public class Menu {
 		System.out.println("How much money would you like to insert?");
 
 		double newBalance;
-		
-		String stringInput=input.nextLine();
-		
-		int input=Integer.parseInt(stringInput);
-		
-		newBalance=balance +input;
-		
+
+		String stringInput = input.nextLine();
+
+		int input = Integer.parseInt(stringInput);
+
+		newBalance = balance + input;
+
+		Date date = new Date();
+
 		try {
-			FileWriter fw = new FileWriter("log.txt");
+			FileWriter fw = new FileWriter("log.txt", true);
 			PrintWriter appendWriter = new PrintWriter(fw);
-			appendWriter.printf("FEED MONEY:\t $%.2f\n",balance+"\t$%.2f\n",newBalance);
+			appendWriter.print(date.toGMTString() + "\t\t");
+			appendWriter.printf("FEED MONEY:\t $%.2f", balance);
+			appendWriter.printf("\t$%.2f\n", newBalance);
 			appendWriter.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -197,8 +199,20 @@ public class Menu {
 
 	private static double purchaseProduct(Consumable item, double balance) {
 		double price = item.getPrice();
-		balance -= price;
-		return balance;
+		double newBalance = balance - price;
+		Date date = new Date();
+		try {
+			FileWriter fw = new FileWriter("log.txt", true);
+			PrintWriter appendWriter = new PrintWriter(fw);
+			appendWriter.print(date.toGMTString() + "\t\t");
+			appendWriter.printf(item.getProduct() + "\t" + item.getLocation() + "\t $%.2f", balance);
+			appendWriter.printf("\t$%.2f\n", newBalance);
+			appendWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return newBalance;
 
 	}
 
@@ -238,12 +252,58 @@ public class Menu {
 			change.add(nickel);
 			numberOfNickels--;
 		}
+		Date date = new Date();
+		try {
+			FileWriter fw = new FileWriter("log.txt", true);
+			PrintWriter appendWriter = new PrintWriter(fw);
+			appendWriter.print(date.toGMTString() + "\t\t");
+			appendWriter.printf("GIVE CHANGE\t $%.2f", balance);
+			appendWriter.print("\t$0.00\n");
+			appendWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return change;
 
 	}
 
 	public static void restockMachine() {
 
-	}
+		File salesReport = new File("vendingmachinesalesreport.csv");
 
+		if (salesReport.exists()) {
+			Scanner fileScanner;
+			try {
+				fileScanner = new Scanner(salesReport);
+				{
+					while (fileScanner.hasNextLine()) {
+						String line = fileScanner.nextLine();
+						String[] lineSplit = line.split("[|]");
+						String product = lineSplit[0];
+						int numberSold = Integer.parseInt(lineSplit[1]);
+						Set<String> keys = itemMap.keySet();
+						for (String key : keys) {
+							Consumable item = itemMap.get(key);
+							if (item.getProduct().equals(product)) {
+								
+							}
+						}
+					}
+				}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+
+			}
+		}
+		if (!salesReport.exists()) {
+			try {
+				salesReport.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }
