@@ -109,12 +109,16 @@ public class Menu {
 			} else if (selection == 2) {
 				System.out.println("Enter product location: ");
 				String location = input.nextLine();
-				Consumable item = itemMap.get(location);
+				Consumable item = itemMap.get(location.toUpperCase());
 				if (item.getPrice() <= balance && item.getNumberOfItems() > 0) {
 					balance = purchaseProduct(item, balance);
 					item.oneLessItem();
 				} else {
-					System.out.println("Sorry, we could not complete your purchase.");
+					if (item.getNumberOfItems()<=0) {
+						System.out.println("SOLD OUT");
+					}if (item.getPrice()>balance) {
+						System.out.println("Insert $"+(item.getPrice()-balance));
+					}
 				}
 
 			} else if (selection == 3) {
