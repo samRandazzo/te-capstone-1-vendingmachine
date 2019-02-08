@@ -99,6 +99,7 @@ public class Menu {
 				System.out.println();
 
 			} else if (selection == 3) {
+				restockMachine();
 				stop = true;
 			}
 
@@ -288,7 +289,7 @@ public class Menu {
 				{
 					while (fileScanner.hasNextLine()) {
 						String line = fileScanner.nextLine();
-						if (line.contains("[|]")) {
+						if (line.contains("|")) {
 							String[] lineSplit = line.split("[|]");
 							String product = lineSplit[0];
 							int numberSold = Integer.parseInt(lineSplit[1]);
