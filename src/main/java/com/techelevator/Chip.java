@@ -7,4 +7,10 @@ public class Chip extends Consumable {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public String getMessage() {
+		// TODO Auto-generated method stub
+		return "Crunch Crunch, Yum!";
+	}
+
 }

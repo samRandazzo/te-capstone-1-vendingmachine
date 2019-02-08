@@ -10,6 +10,8 @@ public abstract class Consumable {
 		this.price = price;
 		this.numberOfItems=numberOfItems;
 	}
+	
+	public abstract String getMessage();
 
 	public double getPrice() {
 		return price;

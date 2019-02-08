@@ -2,12 +2,16 @@ package com.techelevator.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import java.time.*;
 
 import com.techelevator.*;
 
+@SuppressWarnings("unused")
 public class Menu {
 	// We have to make a list of everything in our Vending machine
 	static LinkedHashMap<String, Consumable> itemMap = new LinkedHashMap<String, Consumable>();
@@ -95,7 +99,7 @@ public class Menu {
 
 	public static void purchase() {
 		double balance = 0.00;
-
+		List<Consumable> purchasedItems = new ArrayList<>();
 		boolean stop = false;
 		while (!stop) {
 			System.out.printf(
@@ -109,21 +113,32 @@ public class Menu {
 			} else if (selection == 2) {
 				System.out.println("Enter product location: ");
 				String location = input.nextLine();
-				Consumable item = itemMap.get(location.toUpperCase());
-				if (item.getPrice() <= balance && item.getNumberOfItems() > 0) {
-					balance = purchaseProduct(item, balance);
-					item.oneLessItem();
-				} else {
-					if (item.getNumberOfItems()<=0) {
-						System.out.println("SOLD OUT");
-					}if (item.getPrice()>balance) {
-						System.out.println("Insert $"+(item.getPrice()-balance));
+				try {
+					Consumable item = itemMap.get(location.toUpperCase());
+					if (item.getPrice() <= balance && item.getNumberOfItems() > 0) {
+						balance = purchaseProduct(item, balance);
+						item.oneLessItem();
+						purchasedItems.add(item);
+					} else {
+						if (item.getNumberOfItems() <= 0) {
+							System.out.println("SOLD OUT");
+						}
+						if (item.getPrice() > balance) {
+							System.out.printf("Insert $%.2f\n", (item.getPrice() - balance));
+						}
 					}
+				} catch (Exception e) {
+					System.out.println("Code Error: The code you have entered does not exist. Please try again");
 				}
 
 			} else if (selection == 3) {
-				finishTransaction(balance);
+				for(Coin c:makeChange(balance)) {
+					System.out.println(c.getName());
+				}
+				System.out.println(finishTransaction(purchasedItems));
+				
 				balance = 0.00;
+				purchasedItems.clear();
 				stop = true;
 			}
 
@@ -147,9 +162,44 @@ public class Menu {
 
 	}
 
-	private static String finishTransaction(double balance) {
-
-		return null;
+	private static String finishTransaction(List<Consumable> purchasedItems) {
+		String message = "";
+		for (Consumable item : purchasedItems) {
+			message = message + "\n" + item.getMessage();
+		}
+		
+		return message;
+	}
+	
+	private static List<Coin> makeChange(double balance){
+		List<Coin> change = new ArrayList<>();
+		int intBalance = (int) (balance * 100);
+		int numberOfQuarters;
+		int numberOfDimes;
+		int numberOfNickels;
+		numberOfQuarters=intBalance/25;
+		intBalance-=(numberOfQuarters*25);
+		numberOfDimes=intBalance/10;
+		intBalance-=(numberOfDimes*10);
+		numberOfNickels=intBalance/5;
+		intBalance-=(numberOfNickels*5);
+		while(numberOfQuarters>0) {
+			Coin quarter = new Quarter();
+			change.add(quarter);
+			numberOfQuarters--;
+		}
+		while(numberOfDimes>0) {
+			Coin dime = new Dime();
+			change.add(dime);
+			numberOfDimes--;
+		}
+		while(numberOfNickels>0) {
+			Coin nickel = new Nickel();
+			change.add(nickel);
+			numberOfNickels--;
+		}
+		return change;
+		
 	}
 
 	public static void restockMachine() {
