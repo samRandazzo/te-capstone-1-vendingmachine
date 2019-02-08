@@ -96,16 +96,22 @@ public class Menu {
 	public static void purchase() {
 		double balance = 0.00;
 <<<<<<< HEAD
+<<<<<<< HEAD
 		boolean stop = false;
 =======
 		System.out.printf(
 				"(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $%.2f\n", balance);
 		
+=======
+		System.out.printf("(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $%.2f\n",
+				balance);
+
+>>>>>>> 20e37f15bbde91a94ce2d7428504fb9ea7368b11
 		int selection = Integer.parseInt(input.nextLine());
-		if (selection==1) {
+		if (selection == 1) {
 			balance = feedMoney(balance);
 			System.out.printf("Your balance is: $%.2f\n", balance);
-		} else if (selection==2) {
+		} else if (selection == 2) {
 			System.out.println("Enter product location: ");
 			String location = input.nextLine();
 			Consumable item = itemMap.get(location);
@@ -118,6 +124,7 @@ public class Menu {
 			System.out.println(
 					"(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $" + balance);
 
+<<<<<<< HEAD
 			int selection = Integer.parseInt(input.nextLine());
 			if (selection == 1) {
 				balance = feedMoney(balance);
@@ -138,6 +145,11 @@ public class Menu {
 				balance = 0.00;
 				stop=true;
 			}
+=======
+		} else if (selection == 3) {
+			finishTransaction(balance);
+			balance = 0.00;
+>>>>>>> 20e37f15bbde91a94ce2d7428504fb9ea7368b11
 		}
 
 	}
@@ -162,7 +174,7 @@ public class Menu {
 	}
 
 	private static String finishTransaction(double balance) {
-		
+
 		return null;
 	}
 
