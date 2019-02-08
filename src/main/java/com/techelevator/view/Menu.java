@@ -2,6 +2,9 @@ package com.techelevator.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -58,7 +61,28 @@ public class Menu {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+//If the file doesn't exist, create it
+		// if the file does exist, write over it
 
+		File log =new File ("log.txt");
+		if(!log.exists()) {
+			try {
+				log.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		try {
+			PrintWriter writer = new PrintWriter(log);
+			writer.println("VENDING MACHINE LOG");
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+			
+			
 	}
 
 	public static void mainMenu() {
@@ -132,11 +156,11 @@ public class Menu {
 				}
 
 			} else if (selection == 3) {
-				for(Coin c:makeChange(balance)) {
+				for (Coin c : makeChange(balance)) {
 					System.out.println(c.getName());
 				}
 				System.out.println(finishTransaction(purchasedItems));
-				
+
 				balance = 0.00;
 				purchasedItems.clear();
 				stop = true;
@@ -150,9 +174,25 @@ public class Menu {
 
 		System.out.println("How much money would you like to insert?");
 
-		balance += Integer.parseInt(input.nextLine());
+		double newBalance;
+		
+		String stringInput=input.nextLine();
+		
+		int input=Integer.parseInt(stringInput);
+		
+		newBalance=balance +input;
+		
+		try {
+			FileWriter fw = new FileWriter("log.txt");
+			PrintWriter appendWriter = new PrintWriter(fw);
+			appendWriter.printf("FEED MONEY:\t $%.2f\n",balance+"\t$%.2f\n",newBalance);
+			appendWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		return balance;
+		return newBalance;
 	}
 
 	private static double purchaseProduct(Consumable item, double balance) {
@@ -167,39 +207,39 @@ public class Menu {
 		for (Consumable item : purchasedItems) {
 			message = message + "\n" + item.getMessage();
 		}
-		
+
 		return message;
 	}
-	
-	private static List<Coin> makeChange(double balance){
+
+	private static List<Coin> makeChange(double balance) {
 		List<Coin> change = new ArrayList<>();
 		int intBalance = (int) (balance * 100);
 		int numberOfQuarters;
 		int numberOfDimes;
 		int numberOfNickels;
-		numberOfQuarters=intBalance/25;
-		intBalance-=(numberOfQuarters*25);
-		numberOfDimes=intBalance/10;
-		intBalance-=(numberOfDimes*10);
-		numberOfNickels=intBalance/5;
-		intBalance-=(numberOfNickels*5);
-		while(numberOfQuarters>0) {
+		numberOfQuarters = intBalance / 25;
+		intBalance -= (numberOfQuarters * 25);
+		numberOfDimes = intBalance / 10;
+		intBalance -= (numberOfDimes * 10);
+		numberOfNickels = intBalance / 5;
+		intBalance -= (numberOfNickels * 5);
+		while (numberOfQuarters > 0) {
 			Coin quarter = new Quarter();
 			change.add(quarter);
 			numberOfQuarters--;
 		}
-		while(numberOfDimes>0) {
+		while (numberOfDimes > 0) {
 			Coin dime = new Dime();
 			change.add(dime);
 			numberOfDimes--;
 		}
-		while(numberOfNickels>0) {
+		while (numberOfNickels > 0) {
 			Coin nickel = new Nickel();
 			change.add(nickel);
 			numberOfNickels--;
 		}
 		return change;
-		
+
 	}
 
 	public static void restockMachine() {
