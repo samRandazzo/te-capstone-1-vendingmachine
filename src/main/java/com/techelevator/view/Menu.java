@@ -269,7 +269,17 @@ public class Menu {
 
 	public static void restockMachine() {
 
-		File salesReport = new File("vendingmachinesalesreport.csv");
+		File salesReport = new File("salesreport.txt");
+		LinkedHashMap<String, Integer> salesReportMap = new LinkedHashMap<>();
+		double totalSales = 0;
+
+		{
+			Set<String> keys = itemMap.keySet();
+			for (String key : keys) {
+				Consumable item = itemMap.get(key);
+				salesReportMap.put(item.getProduct(), 0);
+			}
+		}
 
 		if (salesReport.exists()) {
 			Scanner fileScanner;
@@ -278,15 +288,15 @@ public class Menu {
 				{
 					while (fileScanner.hasNextLine()) {
 						String line = fileScanner.nextLine();
-						String[] lineSplit = line.split("[|]");
-						String product = lineSplit[0];
-						int numberSold = Integer.parseInt(lineSplit[1]);
-						Set<String> keys = itemMap.keySet();
-						for (String key : keys) {
-							Consumable item = itemMap.get(key);
-							if (item.getProduct().equals(product)) {
-
-							}
+						if (line.contains("[|]")) {
+							String[] lineSplit = line.split("[|]");
+							String product = lineSplit[0];
+							int numberSold = Integer.parseInt(lineSplit[1]);
+							salesReportMap.put(product, numberSold);
+						}
+						if (line.contains("TOTAL SALES")) {
+							String stringTotalSales = line.substring(17);
+							totalSales = Double.parseDouble(stringTotalSales);
 						}
 					}
 				}
@@ -303,6 +313,28 @@ public class Menu {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		{
+			Set<String> keys = itemMap.keySet();
+			for (String key : keys) {
+				Consumable item = itemMap.get(key);
+				int initial = salesReportMap.get(item.getProduct());
+				int result = (5 - item.getNumberOfItems()) + initial;
+				totalSales +=(5 - item.getNumberOfItems()) * item.getPrice();
+				salesReportMap.put(item.getProduct(), result);
+			}
+		}
+
+		try (PrintWriter writer = new PrintWriter(salesReport)) {
+			Set<String> keys = salesReportMap.keySet();
+			for (String key : keys) {
+				writer.println(key + "|" + salesReportMap.get(key));
+			}writer.println();
+			writer.printf("**TOTAL SALES** $%.2f\n",totalSales);
+			writer.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
