@@ -169,7 +169,7 @@ public class Menu {
 
 	}
 
-	private static double feedMoney(double balance) {
+	public static double feedMoney(double balance) {
 
 		System.out.println("How much money would you like to insert?");
 
@@ -197,7 +197,7 @@ public class Menu {
 		return newBalance;
 	}
 
-	private static double purchaseProduct(Consumable item, double balance) {
+	static double purchaseProduct(Consumable item, double balance) {
 		double price = item.getPrice();
 		double newBalance = balance - price;
 		Date date = new Date();
@@ -216,7 +216,7 @@ public class Menu {
 
 	}
 
-	private static String finishTransaction(List<Consumable> purchasedItems) {
+	static String finishTransaction(List<Consumable> purchasedItems) {
 		String message = "";
 		for (Consumable item : purchasedItems) {
 			message = message + "\n" + item.getMessage();
@@ -225,7 +225,7 @@ public class Menu {
 		return message;
 	}
 
-	private static List<Coin> makeChange(double balance) {
+	static List<Coin> makeChange(double balance) {
 		List<Coin> change = new ArrayList<>();
 		int intBalance = (int) (balance * 100);
 		int numberOfQuarters;
