@@ -190,7 +190,6 @@ public class Menu {
 			appendWriter.printf("\t$%.2f\n", newBalance);
 			appendWriter.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -286,7 +285,7 @@ public class Menu {
 						for (String key : keys) {
 							Consumable item = itemMap.get(key);
 							if (item.getProduct().equals(product)) {
-								
+
 							}
 						}
 					}
