@@ -2,11 +2,7 @@ package com.techelevator.view;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -105,6 +101,7 @@ public class Menu {
 		int selection = Integer.parseInt(input.nextLine());
 		if (selection==1) {
 			balance = feedMoney(balance);
+			System.out.println("Your balance is: $" + balance);
 		} else if (selection==2) {
 			System.out.println("Enter product location: ");
 			String location = input.nextLine();
