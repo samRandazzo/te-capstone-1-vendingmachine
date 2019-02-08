@@ -280,14 +280,7 @@ public class Menu {
 				salesReportMap.put(item.getProduct(), 0);
 			}
 		}
-		if (!salesReport.exists()) {
-			try {
-				salesReport.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+
 		if (salesReport.exists()) {
 			Scanner fileScanner;
 			try {
@@ -313,7 +306,14 @@ public class Menu {
 
 			}
 		}
-
+		if (!salesReport.exists()) {
+			try {
+				salesReport.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		{
 			Set<String> keys = itemMap.keySet();
 			for (String key : keys) {
