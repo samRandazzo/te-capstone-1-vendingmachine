@@ -95,61 +95,34 @@ public class Menu {
 
 	public static void purchase() {
 		double balance = 0.00;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 		boolean stop = false;
-=======
-		System.out.printf(
-				"(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $%.2f\n", balance);
-		
-=======
-		System.out.printf("(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $%.2f\n",
-				balance);
-
->>>>>>> 20e37f15bbde91a94ce2d7428504fb9ea7368b11
-		int selection = Integer.parseInt(input.nextLine());
-		if (selection == 1) {
-			balance = feedMoney(balance);
-			System.out.printf("Your balance is: $%.2f\n", balance);
-		} else if (selection == 2) {
-			System.out.println("Enter product location: ");
-			String location = input.nextLine();
-			Consumable item = itemMap.get(location);
-			if (item.getPrice() <= balance && item.getNumberOfItems() > 0) {
-				purchaseProduct(item, balance);
-				item.oneLessItem();
->>>>>>> 611dcbd1b755967aa28d3dd4f9be67964aee583f
-
 		while (!stop) {
-			System.out.println(
-					"(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $" + balance);
+			System.out.printf(
+					"(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $%.2f\n",
+					balance);
 
-<<<<<<< HEAD
 			int selection = Integer.parseInt(input.nextLine());
 			if (selection == 1) {
 				balance = feedMoney(balance);
-				System.out.println("Your balance is: $" + balance);
+				System.out.printf("Your balance is: $%.2f\n", balance);
 			} else if (selection == 2) {
 				System.out.println("Enter product location: ");
 				String location = input.nextLine();
 				Consumable item = itemMap.get(location);
 				if (item.getPrice() <= balance && item.getNumberOfItems() > 0) {
-					balance =purchaseProduct(item, balance);
+					balance = purchaseProduct(item, balance);
 					item.oneLessItem();
-				}else {
+				} else {
 					System.out.println("Sorry, we could not complete your purchase.");
 				}
 
 			} else if (selection == 3) {
 				finishTransaction(balance);
 				balance = 0.00;
-				stop=true;
+				stop = true;
 			}
-=======
-		} else if (selection == 3) {
-			finishTransaction(balance);
-			balance = 0.00;
->>>>>>> 20e37f15bbde91a94ce2d7428504fb9ea7368b11
+
 		}
 
 	}
@@ -159,10 +132,7 @@ public class Menu {
 		System.out.println("How much money would you like to insert?");
 
 		balance += Integer.parseInt(input.nextLine());
-<<<<<<< HEAD
 
-=======
->>>>>>> 611dcbd1b755967aa28d3dd4f9be67964aee583f
 		return balance;
 	}
 
