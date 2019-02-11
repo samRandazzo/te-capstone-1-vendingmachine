@@ -47,8 +47,14 @@ public class Menu {
 					String type = lineSplit[3];
 					int numberOfItems = 5;
 
-					// Pretty sure one of those 'Case' things would work here but I can't figure out
-					// how to do that
+					/*
+					 * Each line of the input file became an array and now will be an object. Every
+					 * object created will be named "item" but they all have a unique "location" in
+					 * our map of items so we have them all under control.
+					 * 
+					 * Pretty sure one of those 'Case' things would work here but I can't figure out
+					 * how to do that
+					 */
 
 					if (type.equals("Gum")) {
 						Consumable item = new Gum(product, price, numberOfItems, location);
@@ -72,9 +78,10 @@ public class Menu {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//If the file doesn't exist, create it
-		// if the file does exist, write over it
-
+		/*
+		 * If the log file doesn't exist, create it. If the log file does exist, write
+		 * over it
+		 */
 		File log = new File("log.txt");
 		if (!log.exists()) {
 			try {
