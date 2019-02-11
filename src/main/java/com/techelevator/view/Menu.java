@@ -102,10 +102,20 @@ public class Menu {
 
 	}
 
+	/*
+	 * HERE IT IS. THE FABLED 'MAIN MENU' THIS IS WHERE WE CAN ACCESS ALL OF OUR
+	 * FUNCTIONS
+	 */
+
 	public static void mainMenu() {
 		boolean stop = false;
 
 		while (!stop) {
+
+			/*
+			 * OPTION ONE DISPLAYS ALL OF THE INFORMATION ABOUT THE ITEMS IN THE VENDING
+			 * MACHINE
+			 */
 
 			System.out.println("(1) Display Vending Machine Items\n(2) Purchase\n(3) Restock Machine");
 			int selection = Integer.parseInt(input.nextLine());
@@ -113,9 +123,21 @@ public class Menu {
 				displayItems();
 				System.out.println();
 
+				/*
+				 * OPTION TWO ALLOWS YOU PURCHASE ITEMS FROM THE VENDING MACHINE.
+				 */
+
 			} else if (selection == 2) {
 				purchase();
 				System.out.println();
+
+				/*
+				 * OPTION THREE EXITS THE VENDING MACHINE PROGRAM. THIS METHOD IS PASSWORD
+				 * PROTECTED SO ONLY VENDING MACHINE COMPANY EMPLOYEES CAN ACCESS IT.
+				 * UNFORTUNATELY, THE PASSWORD IS 'password' SO IT IS NOT AS SECURE AS IT COULD
+				 * BE. EXITING THE VENDING MACHINE ENDS THE PROGRAM AND CREATES THE SALES REPORT
+				 * FILE.
+				 */
 
 			} else if (selection == 3) {
 				System.out.println("Please Enter your username");
@@ -144,6 +166,11 @@ public class Menu {
 
 	}
 
+	/*
+	 * THIS METHOD CAN BE CALLED BY PRESSING ONE ON THE MAIN MENU. IT ITERATES
+	 * THROUGH EVERY ITEM IN THE MACHINE AND PRINTS THE INFORMATION TO THE CONSOLE.
+	 */
+
 	public static void displayItems() {
 		Set<String> keys = itemMap.keySet();
 		for (String key : keys) {
@@ -157,6 +184,14 @@ public class Menu {
 
 	}
 
+	/*
+	 * PURCHASE IS CALLED FROM THE FABLED 'MAIN MENU,' BUT IT IS IT'S OWN WHOLE
+	 * MENU. WOW. THE PURCHASE MENU CONTAINS EVERYTHING YOU WOULD NEED TO PURCHASE
+	 * ITEMS FROM THE VENDING MACHINE. THIS MENU ALSO LOOPS. YOU WILL NEED TO EXIT
+	 * IT MANUALLY. YOU COULD THINK OF THIS AS 'CHECKING OUT.' EVERY SUCCESSFUL
+	 * SELECTION IN THE PURCHASE MENU IS LOGGED BY THE LOG CALLED 'LOG.'
+	 */
+
 	public static void purchase() {
 		double balance = 0.00;
 		List<Consumable> purchasedItems = new ArrayList<>();
@@ -165,12 +200,24 @@ public class Menu {
 			System.out.printf(
 					"(1) Feed Money\n(2) Select Product\n(3) Finish Transaction\nCurrent Money Provided: $%.2f\n",
 					balance);
-
+			/*
+			 * THE FIRST OPTION LET'S YOU ADD MONEY TO THE VENDING MACHINE. OBVIOUSLY YOU
+			 * NEED TO ADD MONEY BEFORE YOU CAN COMPLETE A PURCHASE.
+			 */
 			int selection = Integer.parseInt(input.nextLine());
 			if (selection == 1) {
 				balance = feedMoney(balance);
 				System.out.printf("Your balance is: $%.2f\n", balance);
-			} else if (selection == 2) {
+			}
+
+			/*
+			 * THE SECOND OPTION LETS YOU PUT THE PRODUCT CODE IN THE MACHINE TO PURCHASE
+			 * THE ITEM. THE PURCHASE FUNCTION CHECKS THAT THE PRODUCT IS IN STOCK AND THAT
+			 * YOU HAVE ENOUGH MONEY TO MAKE THE PURCHASE. IF YOUR PURCHASE IS SUCCESSFUL IT
+			 * ADDS YOUR PURCHASE TO THE LIST OF ITEMS YOU HAVE ALREADY PURCHASED.
+			 */
+
+			else if (selection == 2) {
 				System.out.println("Enter product location: ");
 				String location = input.nextLine();
 				try {
@@ -191,6 +238,13 @@ public class Menu {
 					System.out.println("Code Error: The code you have entered does not exist. Please try again");
 				}
 
+				/*
+				 * OPTION THREE IS BASICALLY 'CHECKING OUT.' THE MACHINE RETURNS YOUR CHANGE,
+				 * ONE COIN AT A TIME. IT PRINTS OUT THE REQUISITE MESSAGES AND RESETS THE
+				 * BALANCE AND PURCHASE LIST. THEN IT EXITS OUT OF THE PURCHASE MENU BACK TO THE
+				 * FABLED 'MAIN MENU.'
+				 */
+
 			} else if (selection == 3) {
 				for (Coin c : makeChange(balance)) {
 					System.out.println(c.getName());
@@ -205,6 +259,15 @@ public class Menu {
 		}
 
 	}
+
+	/*
+	 * THIS IS HOW USERS ADD MONEY TO THE MACHINE. THE MACHINE ASKS THEM TO INSERT
+	 * MONEY. THE MONEY IS PROCESSED AS AN INTEGER SO GET THAT SPARE CHANGE OUT OF
+	 * HERE. IF YOU TRY TO ENTER SOMETHING THAT ISN'T AN INTEGER, I'M NOT HAVING ANY
+	 * OF IT. IT'S AS GOOD AS ZERO TO ME AND I WILL IGNORE IT COMPLETELY. IF YOU
+	 * TYPE IN AN INTEGER LIKE A GOOD CHILD THE MACHINE ADDS IT TO YOUR BALANCE AND
+	 * SANTA CLAUS WILL BRING YOU MANY GIFTS.
+	 */
 
 	public static double feedMoney(double balance) {
 
@@ -242,6 +305,10 @@ public class Menu {
 		return newBalance;
 	}
 
+	/*
+	 * THIS METHOD UPDATES THE BALANCE TO REFLECT A PURCHASE.
+	 */
+
 	static double purchaseProduct(Consumable item, double balance) {
 		double price = item.getPrice();
 		double newBalance = balance - price;
@@ -261,6 +328,11 @@ public class Menu {
 
 	}
 
+	/*
+	 * THIS METHOD GETS THE REQUISITE SILLY MESSAGE FOR EACH PURCHASE. THE STRING IT
+	 * RETURNS DEPENDS ON WHICH SUBCLASS OF ITEM WAS PURCHASED.
+	 */
+
 	static String finishTransaction(List<Consumable> purchasedItems) {
 		String message = "";
 		for (Consumable item : purchasedItems) {
@@ -269,6 +341,11 @@ public class Menu {
 
 		return message;
 	}
+
+	/*
+	 * THIS METHOD CREATES A LIST OF COINS TO BE RETURNED. THE COINS ARE RETURNED IN
+	 * THE LIST AND THEN PRINTED INDIVIDUALLY.
+	 */
 
 	static List<Coin> makeChange(double balance) {
 		List<Coin> change = new ArrayList<>();
@@ -313,11 +390,24 @@ public class Menu {
 
 	}
 
+	/*
+	 * THIS METHOD ENDS IT ALL! AT LEAST UNTIL THE PROGRAM IS RUN AGAIN. IT CREATES
+	 * THE FINAL SALES REPORT AND ENDS THE PROGRAM.
+	 */
+
 	public static void restockMachine() {
 
 		File salesReport = new File("salesreport.txt");
 		LinkedHashMap<String, Integer> salesReportMap = new LinkedHashMap<>();
 		double totalSales = 0;
+
+		/*
+		 * FIRST THINGS FIRST WE MAKE A MAP FOR THE SALES REPORT. WE START BY ITERATING
+		 * THROUGH OUR INITIAL ITEM MAP TO LIST EVERYTHING THAT WAS PUT IN THE MACHINE
+		 * WHEN THE PROGRAM WAS LAUNCHED. THE NUMBER SOLD FOR ALL OF THESE ITEMS IS
+		 * ZERO, BECAUSE INITIALLY, NONE HAD BEEN SOLD. WE WILL ACCOUNT FOR OUR SALES
+		 * LATER.
+		 */
 
 		{
 			Set<String> keys = itemMap.keySet();
@@ -326,6 +416,19 @@ public class Menu {
 				salesReportMap.put(item.getProduct(), 0);
 			}
 		}
+
+		/*
+		 * IF THE SALES REPORT ALREADY EXISTS, WE HAVE TO READ THROUGH IT AND PRESERVE
+		 * IT IN ADDITION TO ADDING OUR OWN SALES. WE USE THE SPLIT FUNCTION JUST LIKE
+		 * WE DID EARLIER TO BREAK EACH LINE INTO ITS OWN ARRAY. WE WILL USE EACH ARRAY
+		 * TO ADD AN ITEM TO THE SALES MAP. BECAUSE MAP KEYS ARE UNIQUE, IF A PRODUCT IN
+		 * THE INITIAL SALES REPORT HAS THE SAME NAME AS A PRODUCT IN OUR VENDING
+		 * MACHINE, THE INITIAL VALUE IS ERASED AND REPLACED WITH THE VALUE FROM THE
+		 * SALES REPORT. THIS NEW MAP WILL CONTAIN EVERY PRODUCT IN BOTH THE INITIAL
+		 * SALES MAP AND THE VENDING MACHINE. THIS IS COMPLICATED, BUT DOING THIS MEANS
+		 * THAT OUR PROGRAM CAN HANDLE CHANGES TO THE VENDING MACHINE INVENTORY. WE ALSO
+		 * EXTRACT THE TOTAL SALES HERE SO THAT WE CAN UPDATE THAT WITH OUR SALES.
+		 */
 
 		if (salesReport.exists()) {
 			Scanner fileScanner;
@@ -352,6 +455,11 @@ public class Menu {
 
 			}
 		}
+
+		/*
+		 * IF THE SALES REPORT DOES NOT ALREADY EXIST WE HAVE TO MAKE IT. SIMPLE.
+		 */
+
 		if (!salesReport.exists()) {
 			try {
 				salesReport.createNewFile();
@@ -361,6 +469,14 @@ public class Menu {
 			}
 		}
 		{
+
+			/*
+			 * WE ITERATE THROUGH OUR MAP OF ITEMS. EVERY ITEM IN THE VENDING MACHINE HAS
+			 * ITS SALES TOTAL UPDATED. WE DERIVE THE TOTAL SOLD IN OUR MACHINE FROM THE
+			 * TOTAL NUMBER OF ITEMS REMAINING IN OUR MACHINE. WE ALSO ADD THESE SALES TO
+			 * OUR TOTAL SALES.
+			 */
+
 			Set<String> keys = itemMap.keySet();
 			for (String key : keys) {
 				Consumable item = itemMap.get(key);
@@ -370,6 +486,11 @@ public class Menu {
 				salesReportMap.put(item.getProduct(), result);
 			}
 		}
+
+		/*
+		 * FINALLY WE PRINT OUR BRAND NEW SALES REPORT TO THE FILE. AND WE ARE ALL DONE
+		 * UNTIL NEXT TIME.
+		 */
 
 		try (PrintWriter writer = new PrintWriter(salesReport)) {
 			Set<String> keys = salesReportMap.keySet();

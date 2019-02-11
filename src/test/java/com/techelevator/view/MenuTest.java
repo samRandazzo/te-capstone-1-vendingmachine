@@ -33,7 +33,18 @@ public class MenuTest {
 	@Test
 	public void can_you_add_a_dollar() {
 		/*
-		 * FOR THIS TEST TO WORK YOU MUST ENTER "1" INTO THE CONSOLE.
+		 * FOR THIS TEST TO PASS YOU MUST ENTER "1" INTO THE CONSOLE.
+		 * IF YOU ENTER ANOTHER NUMBER, THE TEST SHOULD FAIL.
+		 */
+		double input = 0.00;
+		double output = Menu.feedMoney(input);
+		Assert.assertEquals(1.00, output, 0.05);
+	}
+	
+	@Test
+	public void can_you_add_another_dollar() {
+		/*
+		 * FOR THIS TEST TO PASS YOU MUST ENTER "1" INTO THE CONSOLE.
 		 * IF YOU ENTER ANOTHER NUMBER, THE TEST SHOULD FAIL.
 		 */
 		double input = 1.00;
