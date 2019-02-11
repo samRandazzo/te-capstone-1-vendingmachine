@@ -20,12 +20,24 @@ public class Menu {
 	static Scanner input = new Scanner(System.in);
 
 	public static void stockMachine() {
+		/*
+		 * This is the method that sets up the machine
+		 */
 		File input = new File("vendingmachine.csv");
 
 		Scanner fileScanner;
 		try {
 			fileScanner = new Scanner(input);
 			{
+				/*
+				 * We use a while loop to look at every line of the input file. Each line is
+				 * split into the four bits of information we have about each item. We split
+				 * around the "|" symbol. This gives us an array where index 0 is the code you
+				 * enter to select an item index 1 is the name of the product index 2 is the
+				 * price of the product index 3 is the type of product We also automatically set
+				 * number of items to 5 since each product always starts with five items per the
+				 * instructions.
+				 */
 				while (fileScanner.hasNextLine()) {
 					String line = fileScanner.nextLine();
 					String[] lineSplit = line.split("[|]");
@@ -110,7 +122,7 @@ public class Menu {
 						FileWriter fw = new FileWriter("log.txt", true);
 						PrintWriter appendWriter = new PrintWriter(fw);
 						appendWriter.print(date.toGMTString() + "\t\t");
-						appendWriter.print("Restocked by "+username);
+						appendWriter.print("Restocked by " + username);
 						appendWriter.close();
 					} catch (IOException e) {
 						e.printStackTrace();
