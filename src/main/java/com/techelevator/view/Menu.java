@@ -118,7 +118,7 @@ public class Menu {
 			 */
 
 			System.out.println("(1) Display Vending Machine Items\n(2) Purchase\n(3) Restock Machine");
-			int selection = Integer.parseInt(input.nextLine());
+			try{int selection = Integer.parseInt(input.nextLine());
 			if (selection == 1) {
 				displayItems();
 				System.out.println();
@@ -163,6 +163,9 @@ public class Menu {
 			}
 
 		}
+			catch(Exception e) {
+				}
+			}
 
 	}
 
@@ -204,7 +207,7 @@ public class Menu {
 			 * THE FIRST OPTION LET'S YOU ADD MONEY TO THE VENDING MACHINE. OBVIOUSLY YOU
 			 * NEED TO ADD MONEY BEFORE YOU CAN COMPLETE A PURCHASE.
 			 */
-			int selection = Integer.parseInt(input.nextLine());
+			try {int selection = Integer.parseInt(input.nextLine());
 			if (selection == 1) {
 				balance = feedMoney(balance);
 				System.out.printf("Your balance is: $%.2f\n", balance);
@@ -257,6 +260,9 @@ public class Menu {
 			}
 
 		}
+			catch(Exception e) {
+				}
+			}
 
 	}
 
