@@ -15,7 +15,6 @@ import com.techelevator.Consumable;
 import com.techelevator.Drink;
 import com.techelevator.Gum;
 import com.techelevator.view.Menu;
-import com.techelevator.Coin;
 
 public class MenuTest {
 
@@ -30,9 +29,13 @@ public class MenuTest {
 	public void teardown() {
 
 	}
-
+	
 	@Test
 	public void can_you_add_a_dollar() {
+		/*
+		 * FOR THIS TEST TO WORK YOU MUST ENTER "1" INTO THE CONSOLE.
+		 * IF YOU ENTER ANOTHER NUMBER, THE TEST SHOULD FAIL.
+		 */
 		double input = 1.00;
 		double output = Menu.feedMoney(input);
 		Assert.assertEquals(2.00, output, 0.05);

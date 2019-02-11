@@ -1,7 +1,5 @@
 package com.techelevator;
 
-import java.util.Scanner;
-
 import com.techelevator.view.Menu;
 
 public class VendingMachineCLI {
