@@ -99,8 +99,26 @@ public class Menu {
 				System.out.println();
 
 			} else if (selection == 3) {
-				restockMachine();
-				stop = true;
+				System.out.println("Please Enter your username");
+				String username = input.nextLine();
+				System.out.println("Please Enter the password");
+				String password = input.nextLine();
+				if (password.equals("password")) {
+					restockMachine();
+					Date date = new Date();
+					try {
+						FileWriter fw = new FileWriter("log.txt", true);
+						PrintWriter appendWriter = new PrintWriter(fw);
+						appendWriter.print(date.toGMTString() + "\t\t");
+						appendWriter.print("Restocked by "+username);
+						appendWriter.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					stop = true;
+				} else {
+					System.out.println("The password you have entered is incorrect");
+				}
 			}
 
 		}
@@ -172,18 +190,20 @@ public class Menu {
 	public static double feedMoney(double balance) {
 
 		System.out.println("How much money would you like to insert?");
-		
+
 		double newBalance;
-		
+
 		int moneyIn;
-		
+
 		String stringInput = input.nextLine();
 
-	try { moneyIn = Integer.parseInt(stringInput);}
-	
-	catch(Exception e) {
-		moneyIn=0;
-	}
+		try {
+			moneyIn = Integer.parseInt(stringInput);
+		}
+
+		catch (Exception e) {
+			moneyIn = 0;
+		}
 
 		newBalance = balance + moneyIn;
 
